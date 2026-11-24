@@ -67,11 +67,23 @@ This demo uses the browser's **localStorage**, so:
    https://YOUR_USERNAME.github.io/jicho-site/
    ```
 
-> Note: because articles are stored in `localStorage`, each visitor's browser
-> only shows articles they (or anyone who visited the same browser) created.
-> For a multi-user site (everyone sees the same articles, real login), you'd
-> need a backend — see the "Turning this into a real, deployable site" section
-> below.
+> Note: articles are stored in `localStorage`, so each visitor's browser only
+> shows articles they (or anyone who visited the same browser) created.
+
+## Deploying to GitHub Pages with Auth
+
+To add admin authentication:
+
+1. Open `js/data.js` and change the password on this line:
+   ```js
+   const ADMIN_PASSWORD = 'demo'; // Change this to your own password
+   ```
+2. Push to GitHub and enable Pages as above.
+3. The admin panel at `/admin.html` will now require a password.
+
+> **Important:** This is client-side auth only (password stored in the browser).
+> It's a convenient gate, but not real security. For a production site where
+> anyone can edit, you need a backend (see below).
 
 ## Next steps (for a real, multi-user deployment)
 
@@ -79,7 +91,8 @@ This demo uses the browser's **localStorage**, so:
    Django) API backed by Postgres or SQLite, replacing the `localStorage`
    calls in `data.js` with `fetch()` calls to that API.
 2. **Authentication on admin routes** — a login page + sessions or JWTs so
-   only you can publish/edit/delete.
+   only you can publish/edit/delete. The current client-side password gate
+   is convenient for demos but should not be relied on for real content.
 3. **Hosting** — the static pages can go on Netlify/Vercel/GitHub Pages; the
    backend would need somewhere that runs server code (Render, Railway,
    Fly.io, a VPS, etc.) plus a real domain pointed at it.

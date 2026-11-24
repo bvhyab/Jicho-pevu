@@ -12,10 +12,45 @@
 let adminArticles = [];
 let draft = null;
 
+// ---- Admin auth guard ----
+function adminAuthCheck() {
+  if (!isAdminAuthenticated()) {
+    window.location.hash = '#login';
+    return false;
+  }
+  return true;
+}
+
+function adminAuthRedirect() {
+  window.location.hash = '#login';
+}
+
+function adminAuthLogin() {
+  setAdminToken(createAdminToken());
+  adminAuthCheck();
+}
+
+function adminAuthLogout() {
+  clearAdminToken();
+  window.location.hash = '';
+}
+
 function adminInit() {
   adminArticles = seedIfEmpty();
-  renderAdminView();
-  window.addEventListener('hashchange', renderAdminView);
+  if (adminAuthCheck()) {
+    renderAdminView();
+  }
+  window.addEventListener('hashchange', () => {
+    const hash = window.location.hash;
+    if (hash === '#login') {
+      renderAdminView();
+    } else if (hash === '#logout') {
+      adminAuthLogout();
+      document.getElementById('page-root').innerHTML = renderLoginForm();
+    } else {
+      renderAdminView();
+    }
+  });
 }
 
 function renderAdminView() {
@@ -24,6 +59,8 @@ function renderAdminView() {
     openEditor(null);
   } else if (hash.startsWith('#edit=')) {
     openEditor(hash.replace('#edit=', ''));
+  } else if (hash === '#login') {
+    renderAdminList();
   } else {
     renderAdminList();
   }
@@ -41,6 +78,10 @@ function adminChrome(innerHtml) {
 
 // ---------- List view ----------
 function renderAdminList() {
+  if (!isAdminAuthenticated()) {
+    document.getElementById('page-root').innerHTML = renderLoginForm();
+    return;
+  }
   adminArticles = loadArticles();
   const sorted = [...adminArticles].sort((a, b) => b.updatedAt - a.updatedAt);
   const pubCount = publishedArticles(adminArticles).length;

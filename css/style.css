@@ -516,6 +516,48 @@ footer{
 
 /* ---- Editor ---- */
 .editor-grid{display:grid; grid-template-columns:1fr 280px; gap:32px; margin-top:24px;}
+
+/* ---- Admin login ---- */
+.login-screen{
+  display:none;
+  flex-direction:column; align-items:center; justify-content:center;
+  min-height:100vh; padding:24px;
+  background: linear-gradient(135deg, var(--ink) 0%, var(--ink-2) 100%);
+}
+.login-card{
+  width:100%; max-width:380px; padding:36px 32px;
+  background:var(--paper); border:1px solid var(--hairline);
+  border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.25);
+}
+.login-card h1{
+  font-family:var(--display); font-weight:800; font-size:22px;
+  color:var(--ink); margin:12px 0 6px;
+}
+.login-card p{
+  font-family:var(--body); font-size:14px; color:var(--slate);
+  margin-bottom:20px;
+}
+.login-screen .field{margin-bottom:14px;}
+.login-screen .field input{
+  width:100%; font-family:var(--body); font-size:15px; color:var(--ink);
+  background:#fff; border:1px solid var(--hairline-light); border-radius:4px;
+  padding:12px 14px;
+}
+.login-screen .field input:focus{border-color:var(--amber); outline:none;}
+.login-card .btn-primary{
+  width:100%; font-family:var(--display); font-weight:700; font-size:13px;
+  text-transform:uppercase; letter-spacing:0.03em;
+  background:var(--amber); color:var(--ink); padding:12px 22px; border-radius:3px;
+  transition:background 0.15s;
+}
+.login-card .btn-primary:hover{background:var(--amber-bright);}
+.login-card .field-hint{font-family:var(--mono); font-size:10.5px; color:var(--slate); margin-top:12px;}
+.login-card .field-hint code{
+  font-family:var(--mono); font-size:10.5px; background:var(--paper-dim);
+  padding:2px 6px; border-radius:3px;
+}
+.admin-app{display:block;}
+
 @media(max-width:760px){.editor-grid{grid-template-columns:1fr;}}
 
 .field{margin-bottom:22px;}

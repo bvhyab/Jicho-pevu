@@ -8,6 +8,8 @@
 
 const STORAGE_KEY = 'jicho_articles';
 const CATS = ['News', 'Technology', 'Business', 'Culture', 'Reviews'];
+const ADMIN_PASSWORD = 'demo'; // Change this to your own password
+const TOKEN_KEY = 'jicho_admin_token';
 
 function uid() {
   return 'a' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
@@ -36,9 +38,57 @@ function excerpt(text, len) {
 }
 
 function escapeHtml(str) {
-  return (str || '').replace(/[&<>"']/g, c => ({
+  return (str || '').replace(/[&<>"'\\/]/g, c => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[c]));
+}
+
+// ---------- Admin auth ----------
+function getAuthToken() {
+  return localStorage.getItem(TOKEN_KEY);
+}
+
+function isAdminAuthenticated() {
+  return !!getAuthToken();
+}
+
+function setAdminToken(token) {
+  localStorage.setItem(TOKEN_KEY, token);
+}
+
+function clearAdminToken() {
+  localStorage.removeItem(TOKEN_KEY);
+}
+
+function checkAdminPassword(password) {
+  return password === ADMIN_PASSWORD;
+}
+
+function createAdminToken() {
+  const now = Date.now().toString(36);
+  const random = Math.random().toString(36).slice(2, 10);
+  return 'jicho_' + now + '_' + random;
+}
+
+function renderLoginForm() {
+  return `
+    <div id="login-screen" class="login-screen">
+      <div class="login-card">
+        <div class="brand-mark" style="font-size:32px;">JICH<span>O</span></div>
+        <h1>Admin sign in</h1>
+        <p>Enter your password to access the control panel.</p>
+        <form id="login-form">
+          <div class="field" style="max-width:320px;">
+            <label style="display:none;">Password</label>
+            <input type="password" id="login-password" placeholder="Password" style="width:100%;">
+            <div class="field-hint" id="login-error" style="color:#B5453A; display:none;">Incorrect password.</div>
+          </div>
+          <button class="btn-primary" type="submit" style="width:100%;">Sign in</button>
+        </form>
+        <p class="field-hint" style="font-size:11px;">Demo password: <code>${ADMIN_PASSWORD}</code> (change in data.js)</p>
+      </div>
+    </div>
+  `;
 }
 
 // ---------- Storage ----------

@@ -1,18 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin — Jicho</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#D4762A">
+  <meta name="description" content="Admin — Jicho">
+  <title>Admin — Jicho</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body data-page="admin">
-<div id="page-root" class="app">
-  <div class="loading-msg">Loading admin panel…</div>
-</div>
+<body>
+  <div id="page-root" class="app">
+    <div id="login-screen" class="login-screen">
+      <div class="login-card">
+        <div class="brand-mark" style="font-size:32px;">JICH<span>O</span></div>
+        <h1>Admin sign in</h1>
+        <p>Enter your password to access the control panel.</p>
+        <form id="login-form">
+          <div class="field" style="max-width:320px;">
+            <label style="display:none;">Password</label>
+            <input type="password" id="login-password" placeholder="Password" style="width:100%;">
+            <div class="field-hint" id="login-error" style="color:#B5453A; display:none;">Incorrect password.</div>
+          </div>
+          <button class="btn-primary" type="submit" style="width:100%;">Sign in</button>
+        </form>
+        <p class="field-hint" style="font-size:11px;">Demo password: <code>demo</code> (change in data.js)</p>
+      </div>
+    </div>
 
-<script src="js/data.js"></script>
-<script src="js/admin.js"></script>
-<script>adminInit();</script>
+    <div id="admin-app" class="admin-app" style="display:none;">
+      <div id="page-root" class="app">
+        <div class="loading-msg">Loading admin panel…</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    // Auth guard: redirect to login if not authenticated
+    document.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('jicho_admin_token');
+      const adminApp = document.getElementById('admin-app');
+      const loginScreen = document.getElementById('login-screen');
+      if (token) {
+        adminApp.style.display = 'block';
+        loginScreen.style.display = 'none';
+      } else {
+        adminApp.style.display = 'none';
+        loginScreen.style.display = 'flex';
+      }
+    });
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js').catch(() => {});
+    }
+    adminInit();
+  </script>
 </body>
 </html>
