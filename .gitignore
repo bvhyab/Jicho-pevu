@@ -1,0 +1,29 @@
+# Jicho — .gitignore
+
+# OS / editor artifacts
+.DS_Store
+.DS_Store?
+*.swp
+*.swo
+*~
+Desktop.ini
+Thumbs.db
+
+# OS junk
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Local dev server
+__pycache__/
+*.pyc
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Optional: local config with secrets (never commit real credentials)
+.env
+config/local.json
