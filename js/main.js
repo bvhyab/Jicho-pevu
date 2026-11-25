@@ -3,8 +3,8 @@
 // Depends on data.js being loaded first.
 // ============================================================
 
-function renderHomePage() {
-  const articles = seedIfEmpty();
+async function renderHomePage() {
+  const articles = await loadArticles();
   const pub = publishedArticles(articles);
   const root = document.getElementById('page-root');
 
@@ -68,9 +68,9 @@ function renderHomePage() {
   wireNewsletterForm();
 }
 
-function renderCategoryPage() {
+async function renderCategoryPage() {
   const cat = getQueryParam('cat') || CATS[0];
-  const articles = seedIfEmpty();
+  const articles = await loadArticles();
   const items = publishedArticles(articles).filter(a => a.category === cat);
   const root = document.getElementById('page-root');
 

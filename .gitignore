@@ -27,3 +27,7 @@ node_modules/
 # Optional: local config with secrets (never commit real credentials)
 .env
 config/local.json
+
+# Runtime data — never commit to Git
+admin_token.txt
+jicho.db
