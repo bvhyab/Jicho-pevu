@@ -1,4 +1,4 @@
-# Jicho — a Kenyan-style news/blog demo site
+# jicho-pevu
 
 A static news site with an admin panel for posting articles. Built as
 plain HTML/CSS/JS — no build tools, no framework, no server required to try
